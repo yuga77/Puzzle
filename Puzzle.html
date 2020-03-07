@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    function on_load() {
+      div_no = "";
+      clicked_div_no = "";
+      indx = "";
+      agari = "";
+      vacant = 0;
+
+      ch = new Array();
+      panel = new Array();
+      
+    }
+    
+    function on_click(obj_no) {
+      var btn_name = document.getElementsByName("start_btn");
+      var panel_name = document.getElementsByName("add_div");
+
+      if ( btn_name[0].name == "start_btn" ) {
+        for (var i = 0; i < 16; i++) {
+          ch[i] = 0;
+          ch[16] = 0;
+        }
+        
+        for (var i = 0; i < 16; i++) {
+          do{
+            j = Math.floor(Math.random()*16) + 1
+          } while(ch[j] != 0);
+
+          ch[j] = 1;
+          div_no = "no_" + (i + 1);
+          document.getElementById(div_no).innerHTML = "" + j;
+
+          panel[i] = j;
+
+          if (panel[i] == 16) {
+            document.getElementById(div_no).innerHTML = "";
+            panel[i] = "";
+            vacant = i;
+          }
+        }
+      }
+    }
+
+    function Panel_Click(obj) {
+      var get_div = document.getElementsByName("add_div");
+
+      for (var i = 0; i< get_div.length; i++){
+        if (obj == get_div[i]) {
+          break;
+        }
+      }
+
+      clicked_div_no = "no_" + i;
+      indx = i;
+
+      Panel_Click_Check();
+    }
+
+    function Panel_Click_Check() {
+      agari = 1;
+
+      if(indx == vacant - 4)
+        Change_Panel();
+      else if(indx == vacant + 4)
+        Change_Panel();
+      else if((indx == vacant - 1)  && ((vacant % 4) !=0))
+        Change_Panel();
+      else if((indx == vacant + 1)  && ((vacant % 4) !=3))
+        Change_Panel();
+      else{}
+
+      for (var i = 0; i < 15; i++) {
+        if (panel[i] != i + 1){
+          agari = 0;
+          break;
+        }
+      }
+
+      if (agari == 0) {
+        agari = 1;
+      }else{
+        alert("完成です！")
+      }
+
+      function Change_Panel() {
+        panel[vacant] = panel[indx];
+
+        change_no = "no_" + (vacant + 1);
+          document.getElementById(change_no).innerHTML = "" + panel[vacant];
+
+        change_vacant = "no_" + (indx + 1);
+        document.getElementById(change_vacant).innerHTML = "";
+
+        vacant = indx;
+        }
+    }
+    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Puzzle</title>
+  <link rel="stylesheet" href="Puzzle.css">
+</head>
+<body style="background-color: #ffff00;" onload="on_load();">
+  <div id="container_box" name="container_box">
+    <div id="no_1" name="add_div" onclick="Panel_Click(this)">1</div>
+    <div id="no_2" name="add_div" onclick="Panel_Click(this)">2</div>
+    <div id="no_3" name="add_div" onclick="Panel_Click(this)">3</div>
+    <div id="no_4" name="add_div" onclick="Panel_Click(this)">4</div>
+    <div id="no_5" name="add_div" onclick="Panel_Click(this)">5</div>
+    <div id="no_6" name="add_div" onclick="Panel_Click(this)">6</div>
+    <div id="no_7" name="add_div" onclick="Panel_Click(this)">7</div>
+    <div id="no_8" name="add_div" onclick="Panel_Click(this)">8</div>
+    <div id="no_9" name="add_div" onclick="Panel_Click(this)">9</div>
+    <div id="no_10" name="add_div" onclick="Panel_Click(this)">10</div>
+    <div id="no_11" name="add_div" onclick="Panel_Click(this)">11</div>
+    <div id="no_12" name="add_div" onclick="Panel_Click(this)">12</div>
+    <div id="no_13" name="add_div" onclick="Panel_Click(this)">13</div>
+    <div id="no_14" name="add_div" onclick="Panel_Click(this)">14</div>
+    <div id="no_15" name="add_div" onclick="Panel_Click(this)">15</div>
+    <div id="no_16" name="add_div" onclick="Panel_Click(this)">16</div>
+  </div>
+  <form name="form_2" id= "form_2">
+    <input type="button" value="Start" name="start_btn" id="start_btn" onclick="on_click(this)" >
+  </form>
+</body>
+</html>
